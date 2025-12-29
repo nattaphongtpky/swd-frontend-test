@@ -9,6 +9,7 @@ import {
   updatePerson,
   deletePerson,
   Person,
+  deletePeople,
 } from "@/lib/features/peopleSlice";
 import { updateField, resetForm, setEditMode } from "@/lib/features/formSlice";
 import {
@@ -49,8 +50,27 @@ export default function Home({ params: { locale } }: Props) {
   const formData = useSelector((state: RootState) => state.personForm);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const { t } = useTranslation("translation");
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const handleBulkDelete = () => {
+    dispatch(deletePeople(selectedRowKeys as string[]));
+
+    setSelectedRowKeys([]);
+
+    if (formData.id && selectedRowKeys.includes(formData.id)) {
+      dispatch(resetForm());
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -151,7 +171,14 @@ export default function Home({ params: { locale } }: Props) {
         return `${record.firstname} ${record.lastname}`;
       },
     },
-    { title: t("gender"), dataIndex: "gender", key: "gender" },
+    {
+      title: t("gender"),
+      dataIndex: "gender",
+      key: "gender",
+      render: (gender: string) => {
+        return <span>{t(`genders.${gender}`) || gender}</span>;
+      },
+    },
     {
       title: t("mobilephone"),
       key: "phone",
@@ -159,7 +186,14 @@ export default function Home({ params: { locale } }: Props) {
         return `${record.mobileCode}${record.phone}`;
       },
     },
-    { title: t("nationality"), dataIndex: "nationality", key: "nationality" },
+    {
+      title: t("nationality"),
+      dataIndex: "nationality",
+      key: "nationality",
+      render: (nationality: string) => {
+        return <span>{nationality ? t(`${nationality}`) : "-"}</span>;
+      },
+    },
 
     {
       title: t("action"),
@@ -243,9 +277,9 @@ export default function Home({ params: { locale } }: Props) {
                   value={formData.nationality}
                   onChange={(value) => handleInputChange("nationality", value)}
                 >
-                  <Option value={t("thai")}>{t("thai")}</Option>
-                  <Option value={t("english")}>{t("english")}</Option>
-                  <Option value={t("japanjapanese")}>{t("japanese")}</Option>
+                  <Option value="thai">{t("thai")}</Option>
+                  <Option value="english">{t("english")}</Option>
+                  <Option value="japanese">{t("japanese")}</Option>
                 </Select>
               </Form.Item>
             </div>
@@ -261,11 +295,9 @@ export default function Home({ params: { locale } }: Props) {
                   onChange={(e) => handleInputChange("gender", e.target.value)}
                   value={formData.gender}
                 >
-                  <Radio value={t("genders.male")}>{t("genders.male")}</Radio>
-                  <Radio value={t("genders.female")}>
-                    {t("genders.female")}
-                  </Radio>
-                  <Radio value={t("genders.other")}>{t("genders.other")}</Radio>
+                  <Radio value="male">{t("genders.male")}</Radio>
+                  <Radio value="female">{t("genders.female")}</Radio>
+                  <Radio value="other">{t("genders.other")}</Radio>
                 </Radio.Group>
               </Form.Item>
             </div>
@@ -276,7 +308,7 @@ export default function Home({ params: { locale } }: Props) {
               }}
             >
               <Form.Item label={t("mobilephone")} required>
-                <div style={{ display: "flex", gap: "12px" }}>
+                <Space.Compact>
                   <Select
                     value={formData.mobileCode}
                     onChange={(value) => handleInputChange("mobileCode", value)}
@@ -296,7 +328,7 @@ export default function Home({ params: { locale } }: Props) {
                     maxLength={10}
                     inputMode="tel"
                   />
-                </div>
+                </Space.Compact>
               </Form.Item>
             </div>
             <div style={{ width: "350px" }}>
@@ -307,6 +339,23 @@ export default function Home({ params: { locale } }: Props) {
                     const val = e.target.value.replace(/\D/g, "");
                     handleInputChange("passport", val);
                   }}
+                />
+              </Form.Item>
+            </div>
+            <div style={{ width: "350px" }}>
+              <Form.Item label={t("salary")} required>
+                <InputNumber
+                  style={{ width: "100%" }}
+                  value={formData.salary ? Number(formData.salary) : 0}
+                  formatter={(value) =>
+                    `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }
+                  parser={(value) =>
+                    value?.replace(/\$\s?|(,*)/g, "") as unknown as number
+                  }
+                  onChange={(value) =>
+                    handleInputChange("salary", value ? value.toString() : "")
+                  }
                 />
               </Form.Item>
             </div>
@@ -323,12 +372,30 @@ export default function Home({ params: { locale } }: Props) {
             </Space>
           </Form>
         </Card>
-
+        <div
+          style={{
+            marginBottom: 16,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          {selectedRowKeys.length > 0 && (
+            <Popconfirm
+              title={`${t("delete")} ${selectedRowKeys.length} items?`}
+              onConfirm={handleBulkDelete}
+            >
+              <Button type="primary" danger icon={<DeleteOutlined />}>
+                {t("delete")} ({selectedRowKeys.length})
+              </Button>
+            </Popconfirm>
+          )}
+        </div>
         <Table
           columns={columns}
           dataSource={people}
           rowKey="id"
           loading={!isLoaded}
+          rowSelection={rowSelection}
           pagination={{
             pageSize: 5,
             showSizeChanger: true,

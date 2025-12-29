@@ -42,9 +42,17 @@ const peopleSlice = createSlice({
     deletePerson: (state, action: PayloadAction<string>) => {
       state.list = state.list.filter((p) => p.id !== action.payload);
     },
+    deletePeople: (state, action: PayloadAction<string[]>) => {
+      state.list = state.list.filter((p) => !action.payload.includes(p.id));
+    },
   },
 });
 
-export const { setPeople, addPerson, updatePerson, deletePerson } =
-  peopleSlice.actions;
+export const {
+  setPeople,
+  addPerson,
+  updatePerson,
+  deletePerson,
+  deletePeople,
+} = peopleSlice.actions;
 export default peopleSlice.reducer;

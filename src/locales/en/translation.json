@@ -37,6 +37,7 @@
   "citizenid": "Citizenid",
   "mobilephone": "Mobile Phone",
   "passport": "Passport No",
+  "salary": "Expected Salary",
 
   "add_new_person": "Add New Person",
   "edit_person": "Edit Person"
