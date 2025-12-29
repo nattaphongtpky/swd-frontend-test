@@ -1,0 +1,138 @@
+// body {
+//   margin: 0;
+//   padding: 0;
+//   min-height: 100vh;
+//   width: 100%;
+//
+// }
+@keyframes moveLeftReturn {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+}
+.container {
+  margin: 12px;
+  padding: 16px;
+}
+.headerpage {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  font-size: 32px;
+  width: fit-content;
+  span {
+    font-weight: bold;
+    color: black;
+  }
+  &:hover {
+    span {
+      animation: moveLeftReturn 1s ease-in-out infinite;
+      opacity: 0.9;
+      transition: all 0.2s ease-in-out;
+      color: white;
+    }
+  }
+}
+
+.card {
+  background: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 18px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin: 12px;
+  &:hover {
+    background: orange;
+  }
+}
+
+.label {
+  position: absolute;
+  bottom: -12px;
+  background: #6bd670;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.shape {
+  position: absolute;
+  opacity: 0.7;
+  filter: blur(10px);
+  transition: transform 0.5s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 1;
+    filter: blur(0px);
+    z-index: 5;
+  }
+}
+.circle {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  background: gray;
+}
+.square {
+  width: 150px;
+  height: 150px;
+  background: gray;
+}
+.shape_up {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  width: 150px;
+  height: 150px;
+  background: gray;
+}
+.shape_down {
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  width: 150px;
+  height: 150px;
+  background: gray;
+}
+.shape_left {
+  clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+  width: 150px;
+  height: 150px;
+  background: gray;
+}
+.shape_right {
+  clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
+  width: 150px;
+  height: 150px;
+  background: gray;
+}
+
+.parallelogram {
+  transform: skewX(20deg);
+  width: 220px;
+  height: 150px;
+  background: gray;
+}
+.ellipse {
+  width: 290px;
+  height: 150px;
+  background-color: gray;
+  border-radius: 50%;
+}
+.trapezoid {
+  width: 220px;
+  height: 150px;
+  background-color: gray;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+.rectangle {
+  width: 100%;
+  height: 150px;
+  background-color: gray;
+}

@@ -1,0 +1,37 @@
+{
+  "welcome": "Welcome to SWD Frontend Test",
+  "select_language": "Select Language",
+  "add": "Add",
+  "reset": "Reset",
+  "update": "Update",
+  "test": {
+    "1": "Test 1",
+    "2": "Test 2",
+    "3": "Test 3"
+  },
+  "layout-n-style": "Layout and Style",
+  "connect-api": "Connect to API",
+  "form-n-table": "Form and Table",
+  "move_shape": "Move Shape",
+  "move_position": "Move Position",
+  "title": "Title",
+  "mr": "Mr.",
+  "ms": "Ms.",
+  "mrs": "Mrs.",
+  "firstname": "Firstname",
+  "lastname": "Lastname",
+  "fullname": "Fullname",
+  "gender": "Gender",
+  "genders": {
+    "male": "Male",
+    "female": "Female",
+    "other": "Other"
+  },
+  "nationality": "Nationality",
+  "thai": "Thailand",
+  "english": "English",
+  "japanese": "Japanese",
+  "citizenid": "Citizenid",
+  "mobilephone": "Mobile Phone",
+  "passport": "Passport No"
+}
