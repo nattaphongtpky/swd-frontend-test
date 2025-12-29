@@ -18,3 +18,33 @@
   align-items: center;
   margin-bottom: 1rem;
 }
+@keyframes moveLeftReturn {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+}
+
+.headerpage {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  font-size: 32px;
+  width: fit-content;
+  span {
+    font-weight: bold;
+    color: black;
+  }
+  &:hover {
+    span {
+      animation: moveLeftReturn 1s ease-in-out infinite;
+      opacity: 0.9;
+      transition: all 0.2s ease-in-out;
+      color: white;
+    }
+  }
+}

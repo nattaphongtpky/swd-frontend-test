@@ -33,11 +33,17 @@ import { DatePicker } from "antd";
 import { rename } from "fs";
 import { render } from "sass";
 import CitizenIdInput from "@/components/CitizenIdInput";
+import Link from "next/link";
 
 // const { Title } = Typography;
 const { Option } = Select;
+interface Props {
+  params: {
+    locale: string;
+  };
+}
 
-export default function Home() {
+export default function Home({ params: { locale } }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const people = useSelector((state: RootState) => state.people.list);
   const formData = useSelector((state: RootState) => state.personForm);
@@ -137,9 +143,6 @@ export default function Home() {
       dispatch(resetForm());
     }
   };
-
-  const onReset = () => {};
-
   const columns = [
     {
       title: t("fullname"),
@@ -182,143 +185,155 @@ export default function Home() {
   ];
 
   return (
-    <div className={styles.container}>
-      <Card
-        title={formData.id ? "Edit Person" : "Add New Person"}
-        className={styles.formContainer}
-      >
-        <Form layout="vertical" onFinish={handleSubmit}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: "12px",
-            }}
-          >
-            <Form.Item label={t("title")} required>
-              <Select
-                value={formData.title}
-                onChange={(value) => handleInputChange("title", value)}
-              >
-                <Option value={t("mr")}>{t("mr")}</Option>
-                <Option value={t("mrs")}>{t("mrs")}</Option>
-                <Option value={t("ms")}>{t("ms")}</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label={t("firstname")} required>
-              <Input
-                value={formData.firstname}
-                onChange={(e) => handleInputChange("firstname", e.target.value)}
-              />
-            </Form.Item>
-            <Form.Item label={t("lastname")} required>
-              <Input
-                value={formData.lastname}
-                onChange={(e) => handleInputChange("lastname", e.target.value)}
-              />
-            </Form.Item>
-            <Form.Item label={t("birthday")} required>
-              <DatePicker
-                onChange={(e) =>
-                  handleInputChange("birthday", e?.format("YYYY-MM-DD") || "")
-                }
-              />
-            </Form.Item>
-            <Form.Item label={t("nationality")} required>
-              <Select
-                value={formData.nationality}
-                onChange={(value) => handleInputChange("nationality", value)}
-              >
-                <Option value={t("thai")}>{t("thai")}</Option>
-                <Option value={t("english")}>{t("english")}</Option>
-                <Option value={t("japanjapanese")}>{t("japanese")}</Option>
-              </Select>
-            </Form.Item>
-          </div>
-          <div>
-            <Form.Item label={t("citizenid")}>
-              <CitizenIdInput
-                value={formData.citizenid}
-                onChange={(val) => handleInputChange("citizenid", val)}
-              />
-            </Form.Item>
-            <Form.Item label={t("gender")} required>
-              <Radio.Group
-                onChange={(e) => handleInputChange("gender", e.target.value)}
-                value={formData.gender}
-              >
-                <Radio value={t("male")}>{t("male")}</Radio>
-                <Radio value={t("female")}>{t("female")}</Radio>
-                <Radio value={t("other")}>{t("other")}</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-            }}
-          >
-            <Form.Item label={t("mobilephone")} required>
-              <div style={{ display: "flex", gap: "12px" }}>
+    <>
+      <div className=".headerpage">
+        <Link href={`/${locale}`} className={styles.headerpage}>
+          <span>&lt;</span>
+          <span> {t("form-n-table")}</span>
+        </Link>
+      </div>
+      <div className={styles.container}>
+        <Card
+          title={formData.id ? "Edit Person" : "Add New Person"}
+          className={styles.formContainer}
+        >
+          <Form layout="vertical" onFinish={handleSubmit}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: "12px",
+              }}
+            >
+              <Form.Item label={t("title")} required>
                 <Select
-                  value={formData.mobileCode}
-                  onChange={(value) => handleInputChange("mobileCode", value)}
-                  dropdownStyle={{ minWidth: 150 }}
-                  style={{ width: 90 }}
+                  value={formData.title}
+                  onChange={(value) => handleInputChange("title", value)}
                 >
-                  <Option value="+66">🇹🇭 +66</Option>
-                  <Option value="+1">🇺🇸 +1</Option>
-                  <Option value="+81">🇯🇵 +81</Option>
+                  <Option value={t("mr")}>{t("mr")}</Option>
+                  <Option value={t("mrs")}>{t("mrs")}</Option>
+                  <Option value={t("ms")}>{t("ms")}</Option>
                 </Select>
+              </Form.Item>
+              <Form.Item label={t("firstname")} required>
                 <Input
-                  value={formData.phone}
+                  value={formData.firstname}
+                  onChange={(e) =>
+                    handleInputChange("firstname", e.target.value)
+                  }
+                />
+              </Form.Item>
+              <Form.Item label={t("lastname")} required>
+                <Input
+                  value={formData.lastname}
+                  onChange={(e) =>
+                    handleInputChange("lastname", e.target.value)
+                  }
+                />
+              </Form.Item>
+              <Form.Item label={t("birthday")} required>
+                <DatePicker
+                  onChange={(e) =>
+                    handleInputChange("birthday", e?.format("YYYY-MM-DD") || "")
+                  }
+                />
+              </Form.Item>
+              <Form.Item label={t("nationality")} required>
+                <Select
+                  value={formData.nationality}
+                  onChange={(value) => handleInputChange("nationality", value)}
+                >
+                  <Option value={t("thai")}>{t("thai")}</Option>
+                  <Option value={t("english")}>{t("english")}</Option>
+                  <Option value={t("japanjapanese")}>{t("japanese")}</Option>
+                </Select>
+              </Form.Item>
+            </div>
+            <div>
+              <Form.Item label={t("citizenid")}>
+                <CitizenIdInput
+                  value={formData.citizenid}
+                  onChange={(val) => handleInputChange("citizenid", val)}
+                />
+              </Form.Item>
+              <Form.Item label={t("gender")} required>
+                <Radio.Group
+                  onChange={(e) => handleInputChange("gender", e.target.value)}
+                  value={formData.gender}
+                >
+                  <Radio value={t("male")}>{t("male")}</Radio>
+                  <Radio value={t("female")}>{t("female")}</Radio>
+                  <Radio value={t("other")}>{t("other")}</Radio>
+                </Radio.Group>
+              </Form.Item>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: "12px",
+              }}
+            >
+              <Form.Item label={t("mobilephone")} required>
+                <div style={{ display: "flex", gap: "12px" }}>
+                  <Select
+                    value={formData.mobileCode}
+                    onChange={(value) => handleInputChange("mobileCode", value)}
+                    dropdownStyle={{ minWidth: 150 }}
+                    style={{ width: 90 }}
+                  >
+                    <Option value="+66">🇹🇭 +66</Option>
+                    <Option value="+1">🇺🇸 +1</Option>
+                    <Option value="+81">🇯🇵 +81</Option>
+                  </Select>
+                  <Input
+                    value={formData.phone}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "");
+                      handleInputChange("phone", val);
+                    }}
+                    maxLength={10}
+                    inputMode="tel"
+                  />
+                </div>
+              </Form.Item>
+            </div>
+            <div style={{ width: "350px" }}>
+              <Form.Item label={t("passport")}>
+                <Input
+                  value={formData.passport}
                   onChange={(e) => {
                     const val = e.target.value.replace(/\D/g, "");
-                    handleInputChange("phone", val);
+                    handleInputChange("passport", val);
                   }}
-                  maxLength={10}
-                  inputMode="tel"
                 />
-              </div>
-            </Form.Item>
-          </div>
-          <div style={{ width: "350px" }}>
-            <Form.Item label={t("passport")}>
-              <Input
-                value={formData.passport}
-                onChange={(e) => {
-                  const val = e.target.value.replace(/\D/g, "");
-                  handleInputChange("passport", val);
-                }}
-              />
-            </Form.Item>
-          </div>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              {formData.id ? t("update") : t("add")}
-            </Button>
-            <Button htmlType="button" onClick={() => dispatch(resetForm())}>
-              {t("reset")}
-            </Button>
-            {formData.id && (
-              <Button onClick={() => dispatch(resetForm())}>Cancel</Button>
-            )}
-          </Space>
-        </Form>
-      </Card>
+              </Form.Item>
+            </div>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                {formData.id ? t("update") : t("add")}
+              </Button>
+              <Button htmlType="button" onClick={() => dispatch(resetForm())}>
+                {t("reset")}
+              </Button>
+              {formData.id && (
+                <Button onClick={() => dispatch(resetForm())}>Cancel</Button>
+              )}
+            </Space>
+          </Form>
+        </Card>
 
-      <Table
-        columns={columns}
-        dataSource={people}
-        rowKey="id"
-        loading={!isLoaded}
-        pagination={{
-          pageSize: 5,
-          showSizeChanger: true,
-          pageSizeOptions: ["5", "10", "20"],
-        }}
-      />
-    </div>
+        <Table
+          columns={columns}
+          dataSource={people}
+          rowKey="id"
+          loading={!isLoaded}
+          pagination={{
+            pageSize: 5,
+            showSizeChanger: true,
+            pageSizeOptions: ["5", "10", "20"],
+          }}
+        />
+      </div>
+    </>
   );
 }
