@@ -261,9 +261,11 @@ export default function Home({ params: { locale } }: Props) {
                   onChange={(e) => handleInputChange("gender", e.target.value)}
                   value={formData.gender}
                 >
-                  <Radio value={t("male")}>{t("male")}</Radio>
-                  <Radio value={t("female")}>{t("female")}</Radio>
-                  <Radio value={t("other")}>{t("other")}</Radio>
+                  <Radio value={t("genders.male")}>{t("genders.male")}</Radio>
+                  <Radio value={t("genders.female")}>
+                    {t("genders.female")}
+                  </Radio>
+                  <Radio value={t("genders.other")}>{t("genders.other")}</Radio>
                 </Radio.Group>
               </Form.Item>
             </div>
