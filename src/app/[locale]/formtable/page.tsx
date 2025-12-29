@@ -162,7 +162,7 @@ export default function Home({ params: { locale } }: Props) {
     { title: t("nationality"), dataIndex: "nationality", key: "nationality" },
 
     {
-      title: "Action",
+      title: t("action"),
       key: "action",
       render: (_: any, record: Person) => (
         <Space size="middle">
@@ -172,11 +172,11 @@ export default function Home({ params: { locale } }: Props) {
             onClick={() => onEdit(record)}
             ghost
           >
-            Edit
+            {t("edit")}
           </Button>
           <Popconfirm title="Delete?" onConfirm={() => onDelete(record.id)}>
             <Button type="primary" danger icon={<DeleteOutlined />}>
-              Delete
+              {t("delete")}
             </Button>
           </Popconfirm>
         </Space>
@@ -194,7 +194,7 @@ export default function Home({ params: { locale } }: Props) {
       </div>
       <div className={styles.container}>
         <Card
-          title={formData.id ? "Edit Person" : "Add New Person"}
+          title={formData.id ? t("edit_person") : t("add_new_person")}
           className={styles.formContainer}
         >
           <Form layout="vertical" onFinish={handleSubmit}>

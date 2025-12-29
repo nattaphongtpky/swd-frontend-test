@@ -4,6 +4,9 @@
   "add": "Add",
   "reset": "Reset",
   "update": "Update",
+  "action": "Action",
+  "edit": "Edit",
+  "delete": "Delete",
   "test": {
     "1": "Test 1",
     "2": "Test 2",
@@ -33,5 +36,8 @@
   "japanese": "Japanese",
   "citizenid": "Citizenid",
   "mobilephone": "Mobile Phone",
-  "passport": "Passport No"
+  "passport": "Passport No",
+
+  "add_new_person": "Add New Person",
+  "edit_person": "Edit Person"
 }
